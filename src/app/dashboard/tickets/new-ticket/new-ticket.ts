@@ -10,5 +10,4 @@ import { ControlComponent } from "../../../shared/control/control";
 
 })
 export class NewTicketComponent {
-
 }
