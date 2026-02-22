@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { DashboardItemComponent } from '../dashboard-item/dashboard-item';
 
 @Component({
   selector: 'app-server-status',
@@ -7,6 +6,24 @@ import { DashboardItemComponent } from '../dashboard-item/dashboard-item';
   styleUrl: './server-status.css',
 })
 export class ServerStatusComponent {
-  currentStatus = 'online';
+  
+  /**
+   * Tipo um Enum.
+   * Só pode estes valores.
+   */
+  currentStatus: 'online' | 'offline' | 'unknown' = 'offline'; 
+
+  constructor() {
+    setInterval(() => {
+      const rnd = Math.random(); // 0 - 0.99999
+      if(rnd < 0.5) {
+        this.currentStatus = 'online';
+      } else if(rnd < 0.9) {
+        this.currentStatus = 'offline';
+      } else {
+        this.currentStatus = 'unknown';
+      }
+    }, 5000)
+  }
 
 }
