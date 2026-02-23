@@ -1,12 +1,12 @@
 import { Node } from '@angular/compiler';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, DestroyRef, inject, OnDestroy, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-server-status',
   templateUrl: './server-status.html',
   styleUrl: './server-status.css',
 })
-export class ServerStatusComponent implements OnInit, OnDestroy { // no need to implement OnInit
+export class ServerStatusComponent implements OnInit { // no need to implement OnInit
   
   /**
    * Tipo um Enum.
@@ -14,12 +14,14 @@ export class ServerStatusComponent implements OnInit, OnDestroy { // no need to 
    */
   currentStatus: 'online' | 'offline' | 'unknown' = 'offline'; 
   //private interval?: NodeJS.Timeout;
-  private interval?: ReturnType<typeof setInterval>;
+  //private interval?: ReturnType<typeof setInterval>;
+  private destroyRef = inject(DestroyRef);
+
   constructor() {
   }
 
   ngOnInit() {
-    this.interval = setInterval(() => {
+    const interval = setInterval(() => {
       const rnd = Math.random(); // 0 - 0.99999
       if(rnd < 0.5) {
         this.currentStatus = 'online';
@@ -28,15 +30,15 @@ export class ServerStatusComponent implements OnInit, OnDestroy { // no need to 
       } else {
         this.currentStatus = 'unknown';
       }
-    }, 5000)
+    }, 5000);
 
+    this.destroyRef.onDestroy(() => {
+      clearInterval(interval);
+    });
   }
   
   ngAfterViewInit() {
     console.log('AFTER VIEW INIT');
   }
 
-  ngOnDestroy() {
-    clearTimeout(this.interval);
-  }
 }
