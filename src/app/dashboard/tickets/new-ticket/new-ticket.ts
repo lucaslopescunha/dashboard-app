@@ -11,10 +11,11 @@ import { FormsModule } from '@angular/forms';
 
 })
 export class NewTicketComponent {
- onSubmit(title: string, ticketText: string) {
+ onSubmit(title: string, ticketText: string, form: HTMLFormElement) {
   console.log("title is", title);
-  console.log("ticket input", ticketText)
-
+  console.log("ticket input", ticketText);
+  //console.dir(form);
+  form.reset(); // reseta os valores do form.
   //console.dir(titleElement); // prints the object structure
  }
 }
