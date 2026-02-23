@@ -1,4 +1,4 @@
-import { Component, contentChild, ContentChild, ElementRef, inject, input, ViewEncapsulation } from '@angular/core';
+import { afterEveryRender, afterNextRender, Component, contentChild, ContentChild, ElementRef, inject, input, ViewEncapsulation } from '@angular/core';
 
 @Component({
   selector: 'app-control',
@@ -24,6 +24,17 @@ export class ControlComponent {
     app-control in case. */
   //@ContentChild('input') private control?: ElementRef<HTMLInputElement | HTMLTextAreaElement>;
   private control = contentChild<ElementRef<HTMLInputElement | HTMLTextAreaElement>>('input');
+
+  constructor() {
+    afterEveryRender(() => {
+      console.log('afterEveryRender'); /**Evertime something changes in the webpage 
+      Must be called in a injection context.*/
+    });
+    afterNextRender(() => {
+      console.log('afterNextRender'); /**
+      	Executa apenas uma vez após o próximo ciclo de renderização completo. */
+    })
+  }
 
   onClick() {
     /** ANGULAR TEAM RECOMENDS THIS APPROACH!! */
