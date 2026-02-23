@@ -1,4 +1,4 @@
-import { Component, ElementRef, Host, HostBinding, inject, input, ViewEncapsulation } from '@angular/core';
+import { Component, ElementRef, inject, input, ViewEncapsulation } from '@angular/core';
 
 @Component({
   selector: 'app-control',
@@ -28,4 +28,5 @@ export class ControlComponent {
     console.log('Clicked!');
     console.log(this.el);
   }
+
 }
