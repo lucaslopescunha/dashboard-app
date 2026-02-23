@@ -1,4 +1,4 @@
-import { Component, ElementRef, inject, input, ViewEncapsulation } from '@angular/core';
+import { Component, ContentChild, ElementRef, inject, input, ViewEncapsulation } from '@angular/core';
 
 @Component({
   selector: 'app-control',
@@ -22,11 +22,13 @@ export class ControlComponent {
     reference to some element thats rendered to the page. Can refer to any element
     on the page. Angular will give you access to the host element of that component.
     app-control in case. */
+    @ContentChild('input') private control?: ElementRef<HTMLInputElement | HTMLTextAreaElement>;
 
   onClick() {
     /** ANGULAR TEAM RECOMENDS THIS APPROACH!! */
     console.log('Clicked!');
     console.log(this.el);
+    console.log(this.control);
   }
 
 }
