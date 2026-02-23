@@ -1,5 +1,5 @@
 import { Node } from '@angular/compiler';
-import { Component, DestroyRef, inject, OnDestroy, OnInit } from '@angular/core';
+import { Component, DestroyRef, effect, inject, OnDestroy, OnInit, signal } from '@angular/core';
 
 @Component({
   selector: 'app-server-status',
@@ -7,28 +7,37 @@ import { Component, DestroyRef, inject, OnDestroy, OnInit } from '@angular/core'
   styleUrl: './server-status.css',
 })
 export class ServerStatusComponent implements OnInit { // no need to implement OnInit
-  
+
   /**
    * Tipo um Enum.
    * Só pode estes valores.
    */
-  currentStatus: 'online' | 'offline' | 'unknown' = 'offline'; 
+  currentStatus = signal<'online' | 'offline' | 'unknown'>('offline');
   //private interval?: NodeJS.Timeout;
   //private interval?: ReturnType<typeof setInterval>;
   private destroyRef = inject(DestroyRef);
 
   constructor() {
+    effect((onCleanup) => {
+      /**
+       * runs everytime a signal value changes.
+       */
+      console.log(this.currentStatus());
+      onCleanup(() => {
+        console.log("oncleanup")
+      })
+    })
   }
 
   ngOnInit() {
     const interval = setInterval(() => {
       const rnd = Math.random(); // 0 - 0.99999
-      if(rnd < 0.5) {
-        this.currentStatus = 'online';
-      } else if(rnd < 0.9) {
-        this.currentStatus = 'offline';
+      if (rnd < 0.5) {
+        this.currentStatus.set('online');
+      } else if (rnd < 0.9) {
+        this.currentStatus.set('offline');
       } else {
-        this.currentStatus = 'unknown';
+        this.currentStatus.set('unknown');
       }
     }, 5000);
 
@@ -36,7 +45,7 @@ export class ServerStatusComponent implements OnInit { // no need to implement O
       clearInterval(interval);
     });
   }
-  
+
   ngAfterViewInit() {
     console.log('AFTER VIEW INIT');
   }
