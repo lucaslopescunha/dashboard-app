@@ -15,14 +15,17 @@ export class NewTicketComponent implements AfterViewInit {
   //@ViewChild('form') form?: ElementRef<HTMLFormElement>;
   private form = viewChild.required<ElementRef<HTMLFormElement>>('form');
   add = output<{ title: string; text: string }>();
-
+  enteredTitle = '';
+  enteredText = '';
   ngAfterViewInit(): void {
     console.log('After View Init', this.form().nativeElement);
   }
 
-  onSubmit(title: string, ticketText: string) {
-    this.add.emit({ title: title, text: ticketText });
+  onSubmit() {
+    this.add.emit({ title: this.enteredTitle, text: this.enteredText });
     this.form().nativeElement.reset(); // reseta os valores do form.
     //console.dir(titleElement); // prints the object structure
+    this.enteredTitle = '';
+    this.enteredText = '';
   }
 }

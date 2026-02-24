@@ -22,4 +22,15 @@ export class TicketsComponent {
     }
     this.tickets.unshift(ticket);
   }
+  onCloseTicket(id: string) {
+    this.tickets = this.tickets.map((ticket)=> {
+      if(ticket.id === id) {
+        /** JS expression ... ticket creates a copy of the ticket
+         * object. And now we're changing the status.
+         */
+        return { ...ticket, status: 'closed'}
+      }
+      return ticket;
+    })
+  }
 }
